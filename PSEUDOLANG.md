@@ -114,6 +114,55 @@ These are recommended actions, not reserved words.
 
 ---
 
+## Data Operations
+
+These are recommended actions, not reserved words.
+
+| Action      | Description                   |
+| ----------- | ----------------------------- |
+| FIND        | Retrieve a single record      |
+| FIND_ALL    | Retrieve multiple records     |
+| CREATE      | Create a new record           |
+| UPDATE      | Update an existing record     |
+| DELETE      | Delete a record               |
+| UPSERT      | Create or update a record     |
+| EXISTS      | Check whether a record exists |
+| COUNT       | Count matching records        |
+| SAVE        | Persist changes               |
+| TRANSACTION | Execute operations atomically |
+
+### Examples
+
+```pseudolang
+user = FIND User WHERE email == email
+
+users = FIND_ALL User WHERE isActive == true
+
+exists = EXISTS User WHERE email == email
+
+count = COUNT User WHERE status == "active"
+
+CREATE User
+
+UPDATE User
+
+DELETE User
+
+UPSERT User
+```
+
+```pseudolang
+TRANSACTION
+
+    CREATE User
+
+    CREATE AuditLog
+
+END
+```
+
+---
+
 # Operators
 
 PseudoLang supports a minimal set of language-agnostic operators.
@@ -380,7 +429,7 @@ OR
 ```pseudolang
 FUNCTION Login(email, password)
 
-    user = FindUserByEmail(email)
+    user = FIND User WHERE email == email
 
     IF user == null
         RETURN unauthorized
@@ -416,7 +465,7 @@ CODE:
 
 FUNCTION Login(email, password)
 
-    user = FindUserByEmail(email)
+    user = FIND User WHERE email == email
 
     IF user == null
         RETURN unauthorized
