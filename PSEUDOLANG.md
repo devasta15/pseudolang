@@ -1,4 +1,4 @@
-# PseudoLang v1.2
+# PseudoLang v1.3
 
 ## Overview
 
@@ -86,7 +86,7 @@ END
 
 ---
 
-### Constructor
+### Constructors
 
 ```pseudolang
 CLASS User
@@ -132,16 +132,14 @@ END
 ### Inheritance
 
 ```pseudolang
-CLASS AdminUser
-
-    EXTENDS User
+CLASS AdminUser EXTENDS User
 
 END
 ```
 
-| Keyword | Description                |
-| ------- | -------------------------- |
-| EXTENDS | Inherit from another class |
+| Keyword | Description                 |
+| ------- | --------------------------- |
+| EXTENDS | Inherits from another class |
 
 ---
 
@@ -158,17 +156,57 @@ END
 ```
 
 ```pseudolang
-CLASS SqlUserRepository
-
-    IMPLEMENTS UserRepository
+CLASS SqlUserRepository IMPLEMENTS UserRepository
 
 END
 ```
 
-| Keyword    | Description             |
-| ---------- | ----------------------- |
-| INTERFACE  | Defines a contract      |
-| IMPLEMENTS | Implements an interface |
+| Keyword    | Description                       |
+| ---------- | --------------------------------- |
+| INTERFACE  | Defines a contract                |
+| IMPLEMENTS | Implements one or more interfaces |
+
+---
+
+### Abstract Classes
+
+```pseudolang
+ABSTRACT CLASS Repository
+
+    FUNCTION FindById(id)
+
+END
+```
+
+```pseudolang
+CLASS UserRepository EXTENDS Repository
+
+END
+```
+
+| Keyword  | Description                                          |
+| -------- | ---------------------------------------------------- |
+| ABSTRACT | Defines an abstract type that cannot be instantiated |
+
+---
+
+### Combined Relationships
+
+```pseudolang
+CLASS UserRepository
+    EXTENDS BaseRepository
+    IMPLEMENTS Repository, Cacheable
+
+END
+```
+
+Or in a single line:
+
+```pseudolang
+CLASS UserRepository EXTENDS BaseRepository IMPLEMENTS Repository, Cacheable
+
+END
+```
 
 ---
 
@@ -447,6 +485,14 @@ result = data
 | -------- | ----------- | -------------------------------------- |
 |          | >           | Pass previous result to next operation |
 
+Equivalent:
+
+```pseudolang
+result = Validate(data)
+result = Transform(result)
+result = Save(result)
+```
+
 ---
 
 # Literals
@@ -490,7 +536,7 @@ OR
 
 ---
 
-# Example
+# Complete Example
 
 ```pseudolang
 GOAL:
@@ -508,6 +554,22 @@ CODE:
 INTERFACE UserRepository
 
     FUNCTION FindByEmail(email)
+
+END
+
+ABSTRACT CLASS BaseRepository
+
+    FUNCTION Save(entity)
+
+END
+
+CLASS SqlUserRepository EXTENDS BaseRepository IMPLEMENTS UserRepository
+
+    FUNCTION FindByEmail(email)
+
+        RETURN FIND User WHERE email == email
+
+    END
 
 END
 
