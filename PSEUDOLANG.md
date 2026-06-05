@@ -1,10 +1,10 @@
-# PseudoLang v1.1
+# PseudoLang v1.2
 
 ## Overview
 
 PseudoLang is a lightweight, model-agnostic pseudocode format for software development.
 
-Its purpose is to describe behavior and requirements in a clear, structured way so that any AI can convert it into executable code.
+Its purpose is to describe behavior, structure, and requirements in a clear, structured way so that any AI can convert it into executable code.
 
 PseudoLang is not a programming language. It is an intermediate specification between human intent and implementation.
 
@@ -53,14 +53,6 @@ FUNCTION Login(email, password)
 END
 ```
 
-```pseudolang
-FUNCTION SendEmail(recipient, subject, content)
-
-    ...
-
-END
-```
-
 A function may return a value using `RETURN`.
 
 If a function does not return a value, it is treated as a procedure.
@@ -70,6 +62,125 @@ If a function does not return a value, it is treated as a procedure.
 | FUNCTION | Defines a callable block of logic |
 | RETURN   | Returns a value or result         |
 | END      | Closes a block                    |
+
+---
+
+## Object-Oriented Programming
+
+### Classes
+
+```pseudolang
+CLASS User
+
+    PROPERTY id
+    PROPERTY name
+    PROPERTY email
+
+END
+```
+
+| Keyword  | Description            |
+| -------- | ---------------------- |
+| CLASS    | Defines an object type |
+| PROPERTY | Defines object data    |
+
+---
+
+### Constructor
+
+```pseudolang
+CLASS User
+
+    PROPERTY name
+    PROPERTY email
+
+    CONSTRUCTOR(name, email)
+
+        THIS.name = name
+        THIS.email = email
+
+    END
+
+END
+```
+
+| Keyword     | Description                    |
+| ----------- | ------------------------------ |
+| CONSTRUCTOR | Initializes an object          |
+| THIS        | Refers to the current instance |
+
+---
+
+### Methods
+
+Methods use the same FUNCTION syntax as regular functions.
+
+```pseudolang
+CLASS User
+
+    FUNCTION GetDisplayName()
+
+        RETURN THIS.name
+
+    END
+
+END
+```
+
+---
+
+### Inheritance
+
+```pseudolang
+CLASS AdminUser
+
+    EXTENDS User
+
+END
+```
+
+| Keyword | Description                |
+| ------- | -------------------------- |
+| EXTENDS | Inherit from another class |
+
+---
+
+### Interfaces
+
+```pseudolang
+INTERFACE UserRepository
+
+    FUNCTION FindById(id)
+
+    FUNCTION Save(user)
+
+END
+```
+
+```pseudolang
+CLASS SqlUserRepository
+
+    IMPLEMENTS UserRepository
+
+END
+```
+
+| Keyword    | Description             |
+| ---------- | ----------------------- |
+| INTERFACE  | Defines a contract      |
+| IMPLEMENTS | Implements an interface |
+
+---
+
+### Object Creation
+
+```pseudolang
+user = NEW User(name, email)
+```
+
+| Keyword | Description                |
+| ------- | -------------------------- |
+| NEW     | Creates an object instance |
 
 ---
 
@@ -171,8 +282,6 @@ PseudoLang supports a minimal set of language-agnostic operators.
 
 ## Assignment
 
-Assign a value to a variable.
-
 ```pseudolang
 user = FindUserByEmail(email)
 count = 0
@@ -187,15 +296,9 @@ isValid = true
 
 ## Comparison
 
-Compare values.
-
 ```pseudolang
 IF user == null
     RETURN error
-END
-
-IF age >= 18
-    RETURN allowed
 END
 ```
 
@@ -211,8 +314,6 @@ END
 ---
 
 ## Logical
-
-Combine conditions.
 
 ```pseudolang
 IF user != null AND isActive == true
@@ -230,11 +331,9 @@ END
 
 ## Arithmetic
 
-Perform mathematical operations.
-
 ```pseudolang
 total = price * quantity
-counter = counter + 1
+counter += 1
 ```
 
 | Operator | Description    |
@@ -249,14 +348,6 @@ counter = counter + 1
 
 ## Compound Assignment
 
-Shortcut assignments.
-
-```pseudolang
-counter += 1
-total -= discount
-score *= multiplier
-```
-
 | Operator | Description         |
 | -------- | ------------------- |
 | +=       | Add and assign      |
@@ -268,11 +359,8 @@ score *= multiplier
 
 ## Collection Access
 
-Access items in collections.
-
 ```pseudolang
 user = users[0]
-product = products[index]
 ```
 
 | Operator | Description  |
@@ -283,12 +371,8 @@ product = products[index]
 
 ## Member Access
 
-Access object properties.
-
 ```pseudolang
 user.email
-user.name
-order.total
 ```
 
 | Operator | Description     |
@@ -298,8 +382,6 @@ order.total
 ---
 
 ## Safe Navigation
-
-Access a property only when the object exists.
 
 ```pseudolang
 email = user?.email
@@ -313,8 +395,6 @@ email = user?.email
 
 ## Null Coalescing
 
-Provide a fallback value when null.
-
 ```pseudolang
 name = user.name ?? "Guest"
 ```
@@ -327,11 +407,9 @@ name = user.name ?? "Guest"
 
 ## Range
 
-Define iteration ranges.
-
 ```pseudolang
 FOR i IN 1..10
-    PRINT i
+
 END
 ```
 
@@ -342,8 +420,6 @@ END
 ---
 
 ## Membership
-
-Check existence within a collection.
 
 ```pseudolang
 IF email IN blockedEmails
@@ -360,8 +436,6 @@ END
 
 ## Pipeline
 
-Pass the result of one operation to the next.
-
 ```pseudolang
 result = data
     |> Validate
@@ -372,14 +446,6 @@ result = data
 | Operator | Description |                                        |
 | -------- | ----------- | -------------------------------------- |
 |          | >           | Pass previous result to next operation |
-
-Equivalent:
-
-```pseudolang
-result = Validate(data)
-result = Transform(result)
-result = Save(result)
-```
 
 ---
 
@@ -427,30 +493,6 @@ OR
 # Example
 
 ```pseudolang
-FUNCTION Login(email, password)
-
-    user = FIND User WHERE email == email
-
-    IF user == null
-        RETURN unauthorized
-    END
-
-    IF NOT VerifyPassword(password, user.passwordHash)
-        RETURN unauthorized
-    END
-
-    token = GenerateJWT(user)
-
-    RETURN token
-
-END
-```
-
----
-
-# Complete Example
-
-```pseudolang
 GOAL:
     User authentication service
 
@@ -463,21 +505,39 @@ CONSTRAINTS:
 
 CODE:
 
-FUNCTION Login(email, password)
+INTERFACE UserRepository
 
-    user = FIND User WHERE email == email
+    FUNCTION FindByEmail(email)
 
-    IF user == null
-        RETURN unauthorized
+END
+
+CLASS AuthService
+
+    PROPERTY repository
+
+    CONSTRUCTOR(repository)
+
+        THIS.repository = repository
+
     END
 
-    IF NOT VerifyPassword(password, user.passwordHash)
-        RETURN unauthorized
+    FUNCTION Login(email, password)
+
+        user = THIS.repository.FindByEmail(email)
+
+        IF user == null
+            RETURN unauthorized
+        END
+
+        IF NOT VerifyPassword(password, user.passwordHash)
+            RETURN unauthorized
+        END
+
+        token = GenerateJWT(user)
+
+        RETURN token
+
     END
-
-    token = GenerateJWT(user)
-
-    RETURN token
 
 END
 ```
