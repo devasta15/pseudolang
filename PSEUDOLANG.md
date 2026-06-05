@@ -1,4 +1,4 @@
-# PseudoLang v1.3
+# PseudoLang v1.4
 
 ## Overview
 
@@ -38,6 +38,23 @@ CODE:
 | TARGET      | Defines the target language, framework, platform, or technology stack |
 | CONSTRAINTS | Defines mandatory requirements or limitations                         |
 | CODE        | Contains the pseudocode implementation                                |
+
+---
+
+## Modules
+
+```pseudolang
+IMPORT UserRepository
+
+EXPORT CLASS UserService
+
+END
+```
+
+| Keyword | Description                                    |
+| ------- | ---------------------------------------------- |
+| IMPORT  | Import a module, class, interface, or function |
+| EXPORT  | Expose a module, class, interface, or function |
 
 ---
 
@@ -241,25 +258,6 @@ user = NEW User(name, email)
 | WHILE    | Repeats a block while a condition is true |
 | BREAK    | Stops the current loop                    |
 | CONTINUE | Skips to the next iteration               |
-
----
-
-## Common Operations
-
-These are recommended actions, not reserved words.
-
-| Action   | Description                 |
-| -------- | --------------------------- |
-| CREATE   | Create a resource           |
-| READ     | Retrieve data               |
-| UPDATE   | Modify data                 |
-| DELETE   | Remove data                 |
-| VALIDATE | Check correctness of data   |
-| SAVE     | Persist data                |
-| FIND     | Search for data             |
-| GENERATE | Produce a value or artifact |
-| SEND     | Transmit data               |
-| RECEIVE  | Accept data                 |
 
 ---
 
