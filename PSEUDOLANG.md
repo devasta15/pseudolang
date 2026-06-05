@@ -1,4 +1,4 @@
-# PseudoLang v1
+# PseudoLang v1.1
 
 ## Overview
 
